@@ -1,0 +1,1 @@
+Set-HPBIOSSetupPassword -NewPassword 'W1o@D&b2o18'

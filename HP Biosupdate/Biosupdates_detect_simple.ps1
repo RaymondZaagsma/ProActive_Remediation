@@ -1,0 +1,1 @@
+exit ([int](-not (Get-HPBIOSUpdates -check)))
