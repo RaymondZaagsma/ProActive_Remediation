@@ -2,9 +2,9 @@
 # Part to fill
 #
 # Azure application info (for getting secret from Key Vault)
-$TenantID = "bb106cb8-1290-4f54-93ae-f53d92e7a5a0"
-$App_ID = "c59edebe-6b00-4075-900f-6d7e80e6a040"
-$ThumbPrint = "344e2639f808b147ea1cf26ed750875a33d20a6a"
+$TenantID = ""
+$App_ID = ""
+$ThumbPrint = ""
 #
 # Mode to install Az modules, 
 # Choose Install if you want to install directly modules from PSGallery
@@ -14,9 +14,9 @@ $Az_Module_Install_Mode = "Install" # Install or Download
 $Az_Accounts_URL = ""
 $Az_KeyVault_URL = ""
 #
-$vaultName = "cps-kv-biospwd-prod-001"
-$Secret_Name_Old_PWD = "OldPassword"
-$Secret_Name_New_PWD = "NewPassword"
+$vaultName = ""
+$Secret_Name_Old_PWD = ""
+$Secret_Name_New_PWD = ""
 #********************************************************************************************
 
 Function Create_Registry_Content
