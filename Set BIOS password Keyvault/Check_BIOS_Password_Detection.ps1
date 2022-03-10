@@ -2,9 +2,9 @@
 # Part to fill
 #
 # Azure application info (for getting secret from Key Vault)
-$TenantID = ""
-$App_ID = ""
-$ThumbPrint = ""
+$TenantID = "bb106cb8-1290-4f54-93ae-f53d92e7a5a0"
+$App_ID = "c59edebe-6b00-4075-900f-6d7e80e6a040"
+$ThumbPrint = "344e2639f808b147ea1cf26ed750875a33d20a6a"
 #
 # Mode to install Az modules, 
 # Choose Install if you want to install directly modules from PSGallery
@@ -14,8 +14,8 @@ $Az_Module_Install_Mode = "Install" # Install or Download
 $Az_Accounts_URL = ""
 $Az_KeyVault_URL = ""
 #
-$vaultName = ""
-$Secret_Name_New_PWD = ""
+$vaultName = "cps-kv-biospwd-prod-001"
+$Secret_Name_New_PWD = "NewPassword"
 #********************************************************************************************
 
 $Log_File = "$env:SystemDrive\Windows\Debug\Set_BIOS_password.log"
@@ -269,11 +269,11 @@ If(($IsPasswordSet -eq 1) -or ($IsPasswordSet -eq "true") -or ($IsPasswordSet -e
 				Exit 0					
 			}						
 		
-		If(($Get_PWD_Date -eq $Check_BIOS_Date) -and ($Get_PWD_Version -eq $Check_BIOS_Version))
+		If(($Get_PWD_Date -eq $Check_New_PWD_Date) -and ($Get_PWD_Version -eq $Check_New_PWD_Version))
 			{
 				Write_Log -Message_Type "SUCCESS" -Message "The device has the latest BIOS password"
 				Write-output "The device has the latest BIOS password"		
-				Remove_Current_script
+				#Remove_Current_script
 				Exit 0		
 			}
 		Else

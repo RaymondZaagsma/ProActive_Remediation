@@ -2,9 +2,9 @@
 # Part to fill
 #
 # Azure application info (for getting secret from Key Vault)
-$TenantID = ""
-$App_ID = ""
-$ThumbPrint = ""
+$TenantID = "bb106cb8-1290-4f54-93ae-f53d92e7a5a0"
+$App_ID = "c59edebe-6b00-4075-900f-6d7e80e6a040"
+$ThumbPrint = "344e2639f808b147ea1cf26ed750875a33d20a6a"
 #
 # Mode to install Az modules, 
 # Choose Install if you want to install directly modules from PSGallery
@@ -14,9 +14,9 @@ $Az_Module_Install_Mode = "Install" # Install or Download
 $Az_Accounts_URL = ""
 $Az_KeyVault_URL = ""
 #
-$vaultName = ""
-$Secret_Name_Old_PWD = ""
-$Secret_Name_New_PWD = ""
+$vaultName = "cps-kv-biospwd-prod-001"
+$Secret_Name_Old_PWD = "OldPassword"
+$Secret_Name_New_PWD = "NewPassword"
 #********************************************************************************************
 
 Function Create_Registry_Content
@@ -41,7 +41,7 @@ Function Create_Registry_Content
 		New-ItemProperty -Path $BIOS_PWD_Update_Registry_Path -Name "Old_PWD_Version" -Value $Key_Vault_Old_PWD_Version -Force | out-null			
 	}
 	
-Function Remove_Current_scriptsss
+Function Remove_Current_script
 	{
 		$Global:Current_Folder = split-path $MyInvocation.MyCommand.Path
 		$Content_to_remove = "'$Current_Folder\*'"
@@ -279,8 +279,7 @@ If($Appli_Infos_Filled -eq $True)
 
 				$Getting_KeyVault_PWD = $True
 				
-				Write_Log -Message_Type "INFO" -Message "Current password is: $Old_PWD"																				
-				Write_Log -Message_Type "INFO" -Message "New password is: $New_PWD"		
+				
 			}
 
 		If($Getting_KeyVault_PWD -eq $True)
@@ -316,12 +315,12 @@ If($Appli_Infos_Filled -eq $True)
 				If(($IsPasswordSet -eq 1) -or ($IsPasswordSet -eq "true") -or ($IsPasswordSet -eq 2))
 					{
 						$Is_BIOS_Password_Protected = $True	
-						Write_Log -Message_Type "INFO" -Message "There is a current BIOS password"																				
+						Write_Log -Message_Type "INFO" -Message "There is a current DELL BIOS password"																				
 					}
 				Else
 					{
 						$Is_BIOS_Password_Protected = $False
-						Write_Log -Message_Type "INFO" -Message "There is no current BIOS password"													
+						Write_Log -Message_Type "INFO" -Message "There is no current DELL BIOS password"													
 					}
 
 				If($Is_BIOS_Password_Protected -eq $True)
@@ -389,7 +388,7 @@ If($Appli_Infos_Filled -eq $True)
 										Try
 											{
 												Set-Item -Path DellSmbios:\Security\AdminPassword $New_PWD -Password $Old_PWD -ErrorAction stop											
-												Write_Log -Message_Type "SUCCESS" -Message "BIOS password has been changed"			
+												Write_Log -Message_Type "SUCCESS" -Message "DELL BIOS password has been changed"			
 												write-output "Change password: Success"		
 												Create_Registry_Content -KeyVault_New_PWD_Date $Get_New_PWD_Date -KeyVault_New_PWD_Version $Get_New_PWD_Version -Key_Vault_Old_PWD_Date $Get_New_PWD_Date -Key_Vault_Old_PWD_Version $Get_New_PWD_Version
 												# Remove_Current_script
@@ -398,7 +397,7 @@ If($Appli_Infos_Filled -eq $True)
 											Catch
 											{
 												$Exception_Error = $error[0]
-												Write_Log -Message_Type "ERROR" -Message "BIOS password has not been changed"
+												Write_Log -Message_Type "ERROR" -Message "DELL BIOS password has not been changed"
 												Write_Log -Message_Type "ERROR" -Message "Error: $Exception_Error"																										
 												write-output "Change password: Failed"				
 												# Remove_Current_script
@@ -440,21 +439,21 @@ If($Appli_Infos_Filled -eq $True)
 							} 
 						ElseIf($Get_Manufacturer_Info -like "*Dell*")
 							{				
-								Write_Log -Message_Type "INFO" -Message "Changing BIOS password for HP"											
+								Write_Log -Message_Type "INFO" -Message "Changing BIOS password for Dell"											
 								Try
 								{
-									Set-Item -Path DellSmbios:\Security\AdminPassword "$AdminPwd"
-									Write_Log -Message_Type "SUCCESS" -Message "BIOS password has been changed"		
+									Set-Item -Path DellSmbios:\Security\AdminPassword $New_PWD
+									Write_Log -Message_Type "SUCCESS" -Message "DELL BIOS password has been changed"		
 									write-output "Change password: Success"			
 									Create_Registry_Content -KeyVault_New_PWD_Date $Get_New_PWD_Date -KeyVault_New_PWD_Version $Get_New_PWD_Version -Key_Vault_Old_PWD_Date $Get_New_PWD_Date -Key_Vault_Old_PWD_Version $Get_New_PWD_Version
-									Remove_Current_script
+									# Remove_Current_script
 									EXIT 0											
 								}
 								Catch
 								{
-									Write_Log -Message_Type "ERROR" -Message "BIOS password has not been changed"														
+									Write_Log -Message_Type "ERROR" -Message "DELL BIOS password has not been changed"														
 									write-output "Change password: Failed"				
-									Remove_Current_script
+									# Remove_Current_script
 									EXIT 1					
 								}					
 							} 
